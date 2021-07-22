@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>气象风场数据渲染可视化</title>
+    <script src="libwind.min.js"></script>
+    <link rel="stylesheet" href="leaflet.css">
+</head>
+
+<body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        #map {
+            height: 100%;
+        }
+        .current-point {
+            width: auto;
+            background: white;
+            position: absolute;
+            top: 100px;
+            left: 500px;
+            z-index: 1200;
+            padding: 2px 5px;
+            border-radius: 5px;
+        }
+        .marker_timetip_3Jw {
+            position: fixed;
+            left: 42%;
+            top: 20px;
+            z-index: 401;
+            padding: 3px 10px;
+            font-size: 15px;
+            background: rgba(0,0,0,.38);
+            color: #fff;
+            border-radius: 4px;
+        }
+    </style>
+    <div id="map"></div>
+    <div id="currentPoint" class="current-point">
+        <div id="wind-value"></div>
+        <div id="scale-value"></div>
+    </div>
+    <div id="timetip" class="marker_timetip_3Jw"><div>数据时间: 2021-07-21 19:00</div></div>
+
+    <script>
+
+        //初始化地图
+        var map = L.map("map").setView([39.085294, 112.201538], 6);
+        var night = L.tileLayer(
+            "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}"
+        ).addTo(map);
+
+        var dataTime = new Date();
+        document.getElementById("timetip").innerHTML = "<div>"+"数据时间: "+L.windUtil().rebuildTime(dataTime, 9)+"</div>";
+
+        //风场图层初始化
+        var windField = L.velocityLayer({       
+            // velocityScale: [0.008], //线条速度
+            // particleMultiplier: 1 / 1000, //线条密度
+            // maxVelocity: 10, //颜色配比
+            colorScale: ["#fff"]
+        });
+        //风场数据加载
+        L.windUtil().getImgData(dataTime,
+            L.windUtil().options.products["wind"], 
+            function (res) {
+                windField.setData(res);
+                windField.addTo(map);
+        });
+
+        //降水图层初始化
+        var scaleLayer = L.scaleLayer({
+            opacity: 0.7     //透明度
+        });
+        //降水图层数据加载
+        var tpproduct =  L.windUtil().options.products["tp"]
+        var tpscale = chroma.scale(tpproduct.color).domain(tpproduct.range);
+        L.windUtil().getImgData(
+            dataTime,
+            tpproduct,
+            function (res) {
+                var s = L.ScalarField.fromPNGGrid(res[0]);
+                scaleLayer.setColor(tpscale);
+                scaleLayer.setData(s, tpproduct);
+                // scaleLayer.addTo(map);
+        });
+
+        //温度图层初始化
+        var tempLayer = L.scaleLayer({
+            opacity: 0.7     //透明度
+        });
+        //温度图层数据加载
+        var tempproduct =  L.windUtil().options.products["temp"]
+        var tempscale = chroma.scale(tempproduct.color).domain(tempproduct.range);
+        L.windUtil().getImgData(
+            dataTime,
+            tempproduct,
+            function (res) {
+                var s = L.ScalarField.fromPNGGrid(res[0]);
+                tempLayer.setColor(tempscale);
+                tempLayer.setData(s, tempproduct);
+                // scaleLayer.addTo(map);
+        });
+
+        map.on("mousemove", function (e) {
+            if (document.getElementById("wind-value").innerHTML == "" &&
+                document.getElementById("scale-value").innerHTML == "")
+            {
+                document.getElementById("currentPoint").style.display = "none";
+            } else {
+                document.getElementById("currentPoint").style.display = "block";
+            }
+        });
+
+
+        //添加图层控制
+        var baseLayers = {//默认加载数组的第一个tileLayer
+            "降水": scaleLayer,
+            "温度": tempLayer
+			};
+        var overlays = {
+            "风场": windField,
+        };
+        L.control.layers(baseLayers,overlays,{collapsed:false, hideSingleBase:true}).addTo(map);
+
+    </script>
+</body>
+
+</html>
