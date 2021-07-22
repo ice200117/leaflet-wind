@@ -11,8 +11,8 @@
 1. 加载js库和css样式
 
 ```javascript
-    <script src="libwind.min.js"></script>
-    <link rel="stylesheet" href="leaflet.css">
+    <script src="libwind.min.js"></script>
+    <link rel="stylesheet" href="leaflet.css">
 ```
 
 2. body标签中添加map容器和自定义的样式
