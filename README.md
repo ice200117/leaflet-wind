@@ -111,4 +111,4 @@
 
 支持智慧气象、大气污染智能管控平台等二次开发，请添加微信
 
-<img src="https://i.loli.net/2021/07/22/DG5AibW1PYBu8Kp.png" alt="image-20210722194459480" style="zoom: 33%;" />
+<img src="https://i.loli.net/2021/07/22/DG5AibW1PYBu8Kp.png" alt="image-20210722194459480" style="zoom: 25%;" />
