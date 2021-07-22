@@ -58,8 +58,6 @@
 
 ```javascript
        var dataTime = new Date();
-       document.getElementById("timetip").innerHTML = "<div>"+"数据时间: "+L.windUtil().rebuildTime(dataTime, 9)+"</div>";
-
        //风场图层初始化
        var windField = L.velocityLayer({       
        });
