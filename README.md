@@ -104,7 +104,7 @@
 
 ## 更多
 
-更多示例见，[喜鹊气象](http://wind.xqqx123.com/)
+更多示例见，[喜鹊气象](http://wind.xqqx123.com/) http://wind.xqqx123.com/
 
 1. [github仓库]() https://github.com/ice200117/leaflet-wind
 2. [gitee仓库](http://demo.xqqx123.com/)  https://gitee.com/ice200117/leaflet-wind
