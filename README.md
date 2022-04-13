@@ -105,7 +105,7 @@
 更多示例见
 
 1. [喜鹊气象](http://wind.xqqx123.com/) http://wind.xqqx123.com/
-2. [城市空气质量管控平台](http://xx.xqqx123.com/) http://xx.xqqx123.com/   账号  tlxixia    密码   tianlang
+2. [城市空气质量管控平台](http://xx.xqqx123.com/) http://xx.xqqx123.com/   账号  密码  请扫描下方二维码添加微信申请访问。
 3. [github仓库]() https://github.com/ice200117/leaflet-wind
 4. [gitee仓库](http://demo.xqqx123.com/)  https://gitee.com/ice200117/leaflet-wind
 
