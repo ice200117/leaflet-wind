@@ -115,6 +115,44 @@
                 tempLayer.setData(s, tempproduct);
                 // scaleLayer.addTo(map);
         });
+                //温度图层初始化
+                var tempLayer = L.scaleLayer({
+            opacity: 0.7     //透明度
+        });
+
+        //沙尘图层初始化
+        var dusmassLayer = L.scaleLayer({
+            opacity: 0.7     //透明度
+        });
+        //沙尘图层数据加载
+        var dusmassproduct =  L.windUtil().options.products["dusmass"]
+        var dusmassscale = chroma.scale(dusmassproduct.color).domain(dusmassproduct.range);
+        L.windUtil().getImgData(
+            dataTime,
+            dusmassproduct,
+            function (res) {
+                var s = L.ScalarField.fromPNGGrid(res[0]);
+                dusmassLayer.setColor(dusmassscale);
+                dusmassLayer.setData(s, dusmassproduct);
+                // scaleLayer.addTo(map);
+        });
+
+        //沙尘图层初始化
+        var pslvLayer = L.scaleLayer({
+            opacity: 0.7     //透明度
+        });
+        //沙尘图层数据加载
+        var pslvproduct =  L.windUtil().options.products["pslv"]
+        var pslvscale = chroma.scale(pslvproduct.color).domain(pslvproduct.range);
+        L.windUtil().getImgData(
+            dataTime,
+            pslvproduct,
+            function (res) {
+                var s = L.ScalarField.fromPNGGrid(res[0]);
+                pslvLayer.setColor(pslvscale);
+                pslvLayer.setData(s, pslvproduct);
+                // scaleLayer.addTo(map);
+        });
 
         map.on("mousemove", function (e) {
             if (document.getElementById("wind-value").innerHTML == "" &&
@@ -130,7 +168,9 @@
         //添加图层控制
         var baseLayers = {//默认加载数组的第一个tileLayer
             "降水": scaleLayer,
-            "温度": tempLayer
+            "温度": tempLayer,
+            "沙尘": dusmassLayer,
+            "海平面气压": pslvLayer,
 			};
         var overlays = {
             "风场": windField,
